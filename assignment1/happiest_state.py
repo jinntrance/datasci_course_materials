@@ -19,17 +19,19 @@ def main():
     for line in tweet_file:
         tweet = json.loads(line)
         if 'text' in tweet:
-            tweets[tweet['id']] = tweet
-            if 'user' in tweet:
-                if 'en' == tweet['user']['lang']:
-                    s = sum([scores[t] for t in re.findall(r"[\w']+", tweet['text']) if t in scores])
-                    if s !=0:
-                        if tweet['text'] in states:
-                            states[tweet['id']] += s
-                        else:
-                            states[tweet['id']] = s
+            if 'place' in tweet:
+                if tweet['place']:
+                    if tweet["place"]["country_code"] == "US":
+                        if 'user' in tweet:
+                            tweets[tweet['id']] = tweet
+                            s = sum([scores[t] for t in re.findall(r"[\w']+", tweet['text']) if t in scores])
+                            sid = tweet['place']['full_name'][-2:]
+                            if tweet['text'] in states:
+                                states[sid] += s
+                            else:
+                                states[sid] = s
     i = sorted(states, key=states.get, reverse=True)[0]
-    print tweets[i]['text'][:2]
+    print i, states[i]
 
 
 if __name__ == '__main__':
