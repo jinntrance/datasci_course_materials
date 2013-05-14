@@ -31,7 +31,7 @@ def main():
                             else:
                                 states[sid] = s
     i = sorted(states, key=states.get, reverse=True)[0]
-    print i, states[i]
+    print i
 
 
 if __name__ == '__main__':
