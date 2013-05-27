@@ -2,7 +2,7 @@ import MapReduce
 import sys
 
 """
-Word Count Example in the Simple Python MapReduce Framework
+problem 5
 """
 
 mr = MapReduce.MapReduce()
@@ -11,21 +11,17 @@ mr = MapReduce.MapReduce()
 # Do not modify above this line
 
 def mapper(record):
-    # key: document identifier
-    # value: document contents
+    # key: id
+    # value: sequence
     key = record[0]
     value = record[1]
-    words = value.split()
-    for w in words:
-      mr.emit_intermediate(w, 1)
+    mr.emit_intermediate(value[:-10],1)
 
 def reducer(key, list_of_values):
-    # key: word
-    # value: list of occurrence counts
-    total = 0
-    for v in list_of_values:
-      total += v
-    mr.emit((key, total))
+    # key: id
+    # value: list of sequence
+    # for e in set(list_of_values):
+    mr.emit(key)
 
 # Do not modify below this line
 # =============================

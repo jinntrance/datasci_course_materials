@@ -2,7 +2,7 @@ import MapReduce
 import sys
 
 """
-Word Count Example in the Simple Python MapReduce Framework
+problem 4
 """
 
 mr = MapReduce.MapReduce()
@@ -12,16 +12,20 @@ mr = MapReduce.MapReduce()
 
 def mapper(record):
     # key: friend A
+    #value:tuple (friend,sign)
     friendA = record[0]
-    mr.emit_intermediate(friendA, 1)
+    friendB = record[1]
+    mr.emit_intermediate((friendA, friendB), 1)
+    mr.emit_intermediate((friendB, friendA),-1)
 
 def reducer(key, list_of_values):
-    # key: friendA
-    # value: list of friends count
-    total = 0
+    # key: (friendA,friendB)
+    # value: list of relationships
+    total=0
     for v in list_of_values:
-      total += v
-    mr.emit((key, total))
+        total+=v
+    if 0!= total:
+        mr.emit(key)
 
 # Do not modify below this line
 # =============================

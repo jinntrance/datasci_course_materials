@@ -17,14 +17,22 @@ def mapper(record):
     key = record[1]
     mr.emit_intermediate(key, record)
 
+
 def reducer(key, list_of_values):
-    # key: word
-    # value: list of occurrence counts
-    if 2 == list_of_values:
-        mr.emit((key, list_of_values[0]+list_of_values[1]))
+    items = []
+    order = []
+    for v in list_of_values:
+        if "order" == v[0]:
+            order.append(v)
+        elif "line_item" == v[0]:
+                items.append(v)
+
+    for o in order:
+        for i in items:
+            mr.emit(o + i)
 
 # Do not modify below this line
 # =============================
 if __name__ == '__main__':
-  inputdata = open(sys.argv[1])
-  mr.execute(inputdata, mapper, reducer)
+    inputdata = open(sys.argv[1])
+    mr.execute(inputdata, mapper, reducer)

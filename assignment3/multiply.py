@@ -2,7 +2,7 @@ import MapReduce
 import sys
 
 """
-problem 5
+problem 6
 """
 
 mr = MapReduce.MapReduce()
